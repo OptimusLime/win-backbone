@@ -24,8 +24,21 @@ console.log('All registered functions: ', callerEvents);
 // console.log('Required Functions/Events: ', requiredEvents);
 for(var wFun in requiredEvents)
 {
-	console.log('Events requied inside module: ', wFun);
+	console.log('Events required by: ', wFun);
 	console.log(requiredEvents[wFun]);
 }
 
+backbone.emit('evolution', 'save:batchSave', ["stuffywuffy"], function()
+{
+	console.log('Batch save test returned: ', arguments);
+});
 
+console.log('Test invalid callback');
+// backbone.emit('save:batchSave', ["stuffywuffy"], function()
+// {
+// 	console.log('invalid callback');
+// });
+backbone.emit('someone', 'evolution:createIndividual', 0, function()
+{
+	console.log('invalid callback');
+});

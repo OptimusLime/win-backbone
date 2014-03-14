@@ -14,7 +14,7 @@ function sampleSave()
 	var batchSave = function(artifacts, done)
 	{
 		console.log('Saving artifacts: ', artifacts);
-		done("saved stuff");
+		done("sample finish saving stuff: " + artifacts);
 	}
 	var getArtifacts = function(arrWID, done)
 	{
