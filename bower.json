@@ -9,7 +9,7 @@
     "neat"
   ],
   "repo": "OptimusLime/win-backbone",
-  "main": "lib/win-backbone.js"
+  "main": "lib/win-backbone.js",
   "dependencies" : {
     "component/emitter" : "*"
   }

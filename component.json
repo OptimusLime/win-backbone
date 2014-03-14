@@ -12,7 +12,7 @@
   "scripts": [
     "lib/win-backbone.js"
   ],
-  "main": "lib/win-backbone.js"
+  "main": "lib/win-backbone.js",
   "dependencies" : {
     "component/emitter" : "*"
   }
