@@ -1,6 +1,6 @@
 {
   "name": "win-backbone",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The control backbone for WIN, handles message passing between modules in an experiment. Allows for somewhat generic module swapping",
   "keywords": [
     "WIN",
@@ -13,7 +13,7 @@
     "type": "git"
   },
   "main": "lib/win-backbone.js",
-  "dependencies" : {
-    "component-emitter" : "*"
+  "dependencies": {
+    "component-emitter": "*"
   }
 }
