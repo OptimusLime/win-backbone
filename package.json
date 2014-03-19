@@ -1,6 +1,6 @@
 {
   "name": "win-backbone",
-  "version": "0.0.2-5",
+  "version": "0.0.2-6",
   "description": "The control backbone for WIN, handles message passing between modules in an experiment. Allows for somewhat generic module swapping",
   "keywords": [
     "WIN",
