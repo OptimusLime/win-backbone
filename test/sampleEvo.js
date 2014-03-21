@@ -3,11 +3,12 @@ module.exports = sampleEvo;
 function sampleEvo(winBackbone)
 {
 	var self = this;
+	
+	self.winFunction = "evolution";
 
 	self.wbb = winBackbone;
-	self.log = winBackbone.log;	
+	self.log = winBackbone.getLogger(self);	
 
-	self.winFunction = "evolution";
 
 	self.rEvents = 
 	{

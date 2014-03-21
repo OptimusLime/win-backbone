@@ -4,8 +4,8 @@ function sampleSave(backbone)
 {
 	var self = this;
 
-	self.log = backbone.log;
 	self.winFunction = "save";
+	self.log = backbone.getLogger(self);
 
 	var fullEventName = function(partialName)
 	{
