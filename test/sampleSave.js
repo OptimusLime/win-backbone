@@ -1,9 +1,10 @@
 module.exports = sampleSave;
 
-function sampleSave()
+function sampleSave(backbone)
 {
 	var self = this;
 
+	self.log = backbone.log;
 	self.winFunction = "save";
 
 	var fullEventName = function(partialName)
@@ -13,13 +14,13 @@ function sampleSave()
 
 	var batchSave = function(artifacts, done)
 	{
-		console.log('Saving artifacts: ', artifacts);
+		self.log('Saving artifacts: ', artifacts);
 		done("sample finish saving stuff: " + artifacts);
 	}
 	var getArtifacts = function(arrWID, done)
 	{
 		//go on and get our artifacts (either here, or through a request)
-		console.log('getting artifacts: ', arrWID)
+		self.log('getting artifacts: ', arrWID)
 
 		//maybe we save all parental objects
 		done("artifacts fetched now");

@@ -5,6 +5,7 @@ function sampleEvo(winBackbone)
 	var self = this;
 
 	self.wbb = winBackbone;
+	self.log = winBackbone.log;	
 
 	self.winFunction = "evolution";
 
@@ -19,14 +20,14 @@ function sampleEvo(winBackbone)
 
 	var createIndividual = function(id, fn)
 	{
-		// console.log('Creating individual: ', id);
+		// self.log('Creating individual: ', id);
 		fn("individual stuff");
 	}
 	var selectParent = function(pID, saved)
 	{
 		//select the parent here!
 		//then we call save!
-		// console.log('Saving parent: ', pID)
+		// self.log('Saving parent: ', pID)
 
 		//maybe we save all parental objects
 		saved("parent saved now");
