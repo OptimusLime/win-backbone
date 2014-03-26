@@ -36,6 +36,14 @@ for(var wFun in requiredEvents)
 
 
 describe('Testing win-backbone',function(){
+	before(function(done)
+	{
+		backbone.initializeModules(function()
+    	{
+    		log("Finished Module Init");
+ 			done();
+    	});
+	})
 	it('Should emit without issue',function(done){
 
 		backEmitter.emit('save:batchSave', ["stuffywuffy"], function()
