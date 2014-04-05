@@ -4,6 +4,7 @@ var should = require("should");
 var sample = require("./sampleEvo");
 var path =require('path');
 var colors =require('colors');
+var util =require('util');
 
 var	backbone = new winBB(__dirname + "/");
 var saveMod = require('./sampleSave')(backbone);
@@ -254,7 +255,6 @@ describe('Testing win-backbone',function(){
 
 	})
 
-
     it('Should emit error due to lack of event permission',function(done){
 
 		backLog('Test invalid callback');
@@ -274,6 +274,125 @@ describe('Testing win-backbone',function(){
 		}
 
     });
+
+   it('Should make multiple requests at the same time through backbone',function(done){
+
+   		//this represents how many concurrent requests to make
+   		var maCount = 2 + Math.floor(Math.random()*10);
+
+   		var mirrorArgs = {}, advancedQuery = [];
+
+   		//making a random number of concurrent requests! Systematically create arguments for testing
+   		for(var i=0; i < maCount; i++){
+   		 	
+   		 	var aQuery = ["save:manyArgumentCallback"];
+
+   		 	//1 - 6 args
+   			var addArgs = 1 + Math.floor(Math.random()*4);
+
+   			var mArg = [];
+   			for(var a=0; a < addArgs; a++)
+   			{
+   				var theArg = "argument-" + a;
+   				//addditional arguments
+   				aQuery.push(theArg);
+   				mArg.push(theArg);
+   			}
+
+   			//we save the arguments we should be mirrored for this callback
+   			mirrorArgs[i] = mArg;
+
+   			//add the query
+   			advancedQuery.push(aQuery);
+   		}
+
+   		backLog("Advanced query: ".rainbow, advancedQuery);
+
+   		var failIndex = Math.floor(Math.random()*advancedQuery.length);
+
+   		//really it works? 
+		backEmitter.qConcurrent(advancedQuery)
+			.then(function(allResults)
+			{	
+				backLog("Many concurrent call return: ".yellow, allResults);
+
+				//this is a single return call 
+				for(var i=0; i < allResults.length; i++)
+				{
+					var result = allResults[i];
+					var mirArgs = mirrorArgs[i];
+
+					backLog("Desired: ".magenta, mirArgs)
+					backLog("Resulting: ".yellow, result)
+
+					//if we only sent a single argument, it gets mirrored directly (no array stuff)
+					if(mirArgs.length == 1)
+						mirArgs[0].should.equal(result);
+					else
+					{
+						//otherwise, we have multiples
+						//we make the arg
+						mirArgs.length.should.equal(result.length);
+
+						//loop through results
+						for(var l=0; l < mirArgs; l++)
+						{
+							mirArgs[l].should.equal(result[l]);
+						}
+					}
+				}
+
+				//replace a calback with a certified fail!
+				//don't need any arguments
+				advancedQuery[failIndex] = ["save:errorCallback"];
+
+				return backEmitter.qConcurrent(advancedQuery, {endOnError: true});
+			})
+			.then(function()
+			{
+				//this shouldn't be reached 
+				done(new Error("Error was never called"));
+
+			}, function(err)
+			{
+				backLog("Honk town!!!!".rainbow);
+
+				//we have an error, but only length 1 -- endOnError is advanced stuff
+				err.length.should.equal(1);
+				"error".should.equal(err[0].message);
+
+				//do the same thing, but wihtout end on error
+				return backEmitter.qConcurrent(advancedQuery);
+			})
+			.then(function()
+			{
+				//this shouldn't be reached 
+				done(new Error("Error was never called"));
+
+			}, function(err)
+			{
+				//somebody should have failed!
+				for(var i=0; i < err.length; i++)
+				{
+					if(i != failIndex)
+						should.not.exist(err[i]);
+					else{
+						should.exist(err[i]);
+						"error".should.equal(err[i].message);
+					}
+				}
+				//survied the test
+				backLog("Finised Q concurrent flow function tests");
+			})
+			.done(function()
+			{
+				backLog("it's finally multiply over");
+				done();
+			})
+
+    });
+
+
 });
 
 
