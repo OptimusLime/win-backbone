@@ -7,6 +7,7 @@ var colors =require('colors');
 var util =require('util');
 
 var	backbone = new winBB(__dirname + "/");
+
 var saveMod = require('./sampleSave')(backbone);
 
 var traverse = require('traverse');
@@ -14,6 +15,7 @@ var traverse = require('traverse');
 backLog = backbone.getLogger({winFunction:"mocha"});
 backbone.logLevel = backbone.testing;
 backLog.logLevel = backLog.testing;
+
 
 var backLog, evoEmitter,backEmitter, rModules, sampleJSON;
 
@@ -58,6 +60,13 @@ describe('Testing win-backbone',function(){
 
 		//now load in our module file
 		backbone.loadModules(sampleJSON);
+
+		// backbone.mute("backbone");
+		backbone.muteLogger(backLog);
+		// backbone.mute("evo");
+		// backbone.mute("save");
+		// backbone.mute("mocha");
+
 
 		evoEmitter = backbone.getEmitter(evoModule);
 		backEmitter = backbone.getEmitter(mochaModule);
