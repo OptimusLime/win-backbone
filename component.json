@@ -18,7 +18,7 @@
   ],
   "main": "lib/win-backbone.js",
   "dependencies": {
-    "techjacker/q": "*",
-    "component/emitter": "*"
+    "techjacker/q": "master",
+    "component/emitter": "master"
   }
 }
